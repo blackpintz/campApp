@@ -1,0 +1,28 @@
+<% include ./partials/header %> <!--you can also use it as partials/header-->
+
+<div class = "ui grid container">
+    <div class = "ui two column centered grid">
+              <h1>Create an account</h1>
+                <div class = "column">
+                    <form id = "register" class = "ui large form" action = "/register" method = "POST">
+                <div class="required field">
+                    <label>Username</label>
+                    <input type="text" name="username" placeholder="username">
+                </div>
+                <div class = "field">
+                    <label>Password</label>
+                    <input type="password" name="password" placeholder="password">
+                </div>
+                
+                <div class = "ui two column centered grid">
+                    <div class = "eight column centered row">
+                        <button class="ui teal button">Sign up</button>
+               </div>
+               </div>
+             </form>
+         </div>
+    </div>
+</div>
+
+
+

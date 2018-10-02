@@ -1,0 +1,31 @@
+<% include ../partials/header %>
+
+<div class = "ui grid container">
+    <div class = "ui two column centered grid">
+              <h1>Creating new camp ground</h1>
+                <div class = "column">
+                    <form id = "campground" class = "ui large form" action = "/campground" method = "POST">
+                <div class="required field">
+                    <label>Name of campground</label>
+                    <input type="text" name="infoItem" placeholder="Enter camp-ground">
+                </div>
+                <div class = "required field">
+                    <label>Image Url</label>
+                    <input type="text" name = "imageUrl" placeholder="image url">
+                </div>
+                <div class = "field">
+                    <label>Describe the campground</label>
+                    <textarea name = "description"></textarea>
+                </div>
+                <div class = "ui two column centered grid">
+                    <div class = "eight column centered row">
+                        <button class="ui teal button" type="submit">Submit</button>
+               </div>
+               </div>
+             </form>
+         </div>
+    </div>
+</div>
+
+
+

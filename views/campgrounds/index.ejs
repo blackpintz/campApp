@@ -1,0 +1,35 @@
+<% include ../partials/header %>
+
+<div class = "ui container">
+<h1 class = "ui header">Welcome to Yelp Camp - camping grounds!</h1> 
+
+<div class="ui three column grid">
+    <% campground.forEach(function(campg){ %>
+  <div class="column">
+    <div class="ui fluid card">
+      <div class="image">
+        <img src="<%= campg.image %>">
+      </div>
+      <div class="content">
+        <a class="header"><%= campg.name %></a>
+      </div>
+      <div class = "extra content">
+          <div class = "ui teal button">
+              <a href = "/campground/<%= campg._id %>">More Info</a>
+          </div>
+      </div>
+    </div>
+  </div>
+  <% }) %>
+ </div> 
+ <div class = "ui divider"></div>
+  <div class = "ui grey basic button">
+        <a href = "/">Go back</a>
+ </div>
+</div>
+
+
+
+
+
+

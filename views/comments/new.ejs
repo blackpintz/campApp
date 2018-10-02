@@ -1,0 +1,24 @@
+<% include ../partials/header %>
+
+<div class = "ui grid container">
+    <div class = "ui two column centered grid">
+              <h1>Create a new comment for <%= campground.name %></h1>
+                <div class = "column">
+                    <form id = "comment" class = "ui large form" action = "/campground/<%= campground._id %>/comments" method = "POST">
+                <div class = "field">
+                    <label>Comment</label>
+                    <textarea name = "comment[text]" placeholder="..." rows = "2"></textarea>
+                </div>
+                
+                <div class = "ui two column centered grid">
+                    <div class = "eight column centered row">
+                        <button class="ui teal button" type="submit">Submit</button>
+               </div>
+               </div>
+             </form>
+         </div>
+    </div>
+</div>
+
+
+

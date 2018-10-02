@@ -1,0 +1,17 @@
+/*******************************
+           Overrides
+*******************************/
+
+.ui.card {
+  border-radius: 0em;
+}
+
+.ui.card > :only-child {
+  border-radius: 0em !important;
+} 
+
+.ui.cards > .card > .image > img,
+.ui.card > .image > img {
+ border-radius: 0em;
+ 
+}

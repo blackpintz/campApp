@@ -1,0 +1,40 @@
+.ui.menu {
+ margin-top: 0.5rem;
+ margin-bottom: 1rem;
+ border-radius: 0;
+}
+
+/* Large monitor */
+@media only screen and (min-width: 1200px) {
+   
+   .ui.compact.menu {
+       display: none;
+   }
+}
+
+/* Tablet */
+
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+   
+   .ui.compact.menu {
+       display: none;
+   }
+}
+
+
+/* Mobile */
+
+@media only screen and (max-width: 767px) {
+
+   .ui.inverted.menu {
+   display: none;
+   
+   }
+   
+   .ui.compact.menu {
+       display: block;
+       width: 25%;
+       margin-top: 0.5rem;
+   }
+
+}

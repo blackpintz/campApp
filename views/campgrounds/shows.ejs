@@ -1,0 +1,96 @@
+<% include ../partials/header %>
+
+<div class = "ui grid container">
+    
+    <div class = "four wide column">
+        <div class = "header">
+            YelpCamp
+        </div>
+            <div class = "ui list">
+                <div class = "item">
+                     <div class = "content">
+                    <div class = "ui center aligned block active header">info 1</div>
+                  </div>
+                </div>
+                <div class = "item">
+                     <div class = "content">
+                    <div class = "ui center aligned block header">info 2</div>
+                  </div>
+                </div>
+                <div class = "item">
+                     <div class = "content">
+                    <div class = "ui center aligned block header">info 3</div>
+                  </div>
+                </div>
+            </div>
+            </div>
+              <div class = "ten wide column">
+               <div class = "ui fluid card">
+                   <div class = "image">
+                       <img src = "<%= campground.image %>">
+                   </div>
+                   <div class = "content">
+                       <span class = "right floated">$9.00/night</span>
+                       <span class = "left floated">
+                          <a href = "/campground/<%= campground._id%>"><%= campground.name %></a> 
+                       </span>
+                       <div class = "ui hidden divider"></div>
+                       <div class = "extra content">
+                           <p>
+                               <em>Submitted by <%= campground.author.username%></em>
+                               <% if(currentUser && campground.author.id.equals(currentUser._id)){ %>
+                               <div class = "ui grey basic button">
+                                       <a href = "/campground/<%= campground._id%>/edit">Edit Page</a>
+                               </div>
+                               <form action="/campground/<%= campground.id%>?_method=DELETE" method = "POST">
+                                  <button class = "ui grey basic button">Delete</button>
+                               </form>
+                               <% } %>
+                           </p>
+                       </div>
+                       <div class = "description">
+                           <p><%= campground.description %></p>
+                       </div>
+                       
+                   </div>
+                    <div class = "ui right aligned grid">
+                    <div class = "sixteen wide column">
+                   <a class = "ui green button" href = "/campground/<%= campground._id%>/comments/new">Leave a Review</a> 
+                </div>
+            </div>
+        </div>
+                  <div class="ui comments">
+                    <h3 class = "ui dividing header">Reviews</h3>
+                  <% campground.comments.forEach(function(comment){ %>
+            <div class="comment">
+             <div class="content">
+            <a class="author"><strong><%= comment.author.username %></strong></a>
+            <div class="metadata">
+               <div class="date">2 days ago</div>
+            <div class="rating">
+              <i class="star icon"></i>
+              5 Faves
+              </div>
+           </div>
+            <div class="text">
+             <p><%= comment.text %></p>
+             <% if(currentUser && comment.author.id.equals(currentUser._id)){%>
+             <div class = "ui buttons">
+                 <button class="mini ui button">
+                 <a href = "/campground/<%= campground._id%>/comments/<%= comment._id%>/edit">Edit</a>
+              </button>
+              <form action ="/campground/<%= campground._id %>/comments/<%=comment._id%>?_method=DELETE" method = "POST">
+                  <button class = "mini ui button">Delete</button>
+              </form>
+             </div>
+             <% } %>
+             
+             <% }) %>
+       </div>
+     </div>
+   </div>
+  </div>
+ </div>
+ <div class = "two wide column">
+ </div>
+</div>

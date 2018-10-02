@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+    <header>
+        <title>Yelp Camp</title>
+        <link rel="stylesheet" type="text/css" href="/dist/semantic.min.css">
+         <script src= "https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+         <script type = "text/javascript" src="/dist/semantic.min.js"></script>
+         <script type = "text/javascript" src ="/jqueryCode/jquery.js"></script>
+    </header>
+    <body>
+  
+    <div class="ui grey inverted menu">
+  <a class="active item" href = "/">
+    Home
+  </a>
+  <a class="item">
+    Messages
+  </a>
+  <a class="item">
+    Friends
+  </a>
+  <div class="right menu">
+    <% if(!currentUser) { %>
+    <a class = "ui item" href =  "/register">
+      <i class="user plus icon"></i>
+      Sign up
+    </a>
+    <a class = "ui item" href = "/login">
+      <i class="sign in alternate icon"></i>
+      Login
+    </a>
+    <% } else { %>
+    <a class = "ui item" href = "#">
+      Welcome <%= currentUser.username%>
+    </a>
+    <a class="ui item" href = "/logout">
+      <i class="sign out alternate icon"></i>
+      Logout
+    </a>
+    <% } %>
+   </div>
+ </div>
+ 
+<div class="ui compact menu">
+  <div class="ui simple dropdown item">
+    <i class="bars icon"></i>
+    <div class="menu">
+      <div class="item">Home page</div>
+      <div class="item">View campground</div>
+      <div class="item">Add campground</div>
+    </div>
+  </div>
+</div>
+<div class = "ui container">
+  <%  if(error && error.length > 0) {%>
+  <div class="ui warning message">
+  <div class="header">
+    <%= error %>
+  </div>
+  <% } %>
+</div>
+</div>
+<div class = "ui container">
+<% if(success && success.length > 0){%>
+<div class="ui positive message">
+  <i class="close icon"></i>
+  <div class="header">
+    <%= success %>
+  </div>
+</div>
+<% } %>
+</div>
+
+
+   
