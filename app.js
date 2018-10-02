@@ -19,7 +19,8 @@ var campgroundRoutes = require("./routers/campground"),
     
 // seedDB();
 
-mongoose.connect("mongodb://localhost:27017/yelp_camp", { useNewUrlParser: true }); 
+// mongoose.connect("mongodb://localhost:27017/yelp_camp", { useNewUrlParser: true }); 
+mongoose.connect("mongodb://rose:rose12345@ds119993.mlab.com:19993/yelpcamp", { useNewUrlParser: true });
 mongoose.set("useFindAndModify", false);
 
 // APP CONFIG
