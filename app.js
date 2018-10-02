@@ -18,9 +18,8 @@ var campgroundRoutes = require("./routers/campground"),
     authRoutes       = require("./routers/auth");
     
 // seedDB();
-
-mongoose.connect(process.env.localDB, { useNewUrlParser: true }); 
-// mongoose.connect("mongodb://rose:rose12345@ds119993.mlab.com:19993/yelpcamp");
+var url = process.env.localDB || "mongodb://localhost:27017/yelp_camp";
+mongoose.connect(url, { useNewUrlParser: true }); 
 mongoose.set("useFindAndModify", false);
 
 // APP CONFIG
