@@ -22,7 +22,6 @@ var campgroundRoutes = require("./routers/campground"),
 // seedDB();
 var url = process.env.DATABASE_URL || "mongodb://localhost:27017/yelp_camp";
 mongoose.connect(url, { useNewUrlParser: true }); 
-// mongoose.connect("mongodb://rose:rose12345@ds119993.mlab.com:19993/yelpcamp");
 mongoose.set("useFindAndModify", false);
 mongoose.set("useCreateIndex", true);
 

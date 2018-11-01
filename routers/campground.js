@@ -2,6 +2,16 @@ var express = require("express");
 var router = express.Router();
 var campground = require("../models/campground");
 var middleware = require("../middleware");
+var NodeGeocoder          = require("node-geocoder");
+
+var options = {
+    provider: "google",
+    httpAdapter: "https",
+    apiKey: process.env.GEOCODER_API_KEY,
+    formatter: null
+};
+
+var geocoder = NodeGeocoder(options);
 
 // campground.create({
 //             name: "Rapid Camp Sagana",
@@ -60,7 +70,7 @@ router.get("/new", middleware.isLoggedIn, function(req, res) {
 router.post("/", middleware.isLoggedIn, function(req, res) {
     
     var newItem = {};
-    var data = req.body.infoItem;
+    var name = req.body.infoItem;
     var imageData = req.body.imageUrl;
     var description = req.body.description;
     var price = req.body.price;
@@ -70,13 +80,29 @@ router.post("/", middleware.isLoggedIn, function(req, res) {
         
     };
     
+    
+    
+    
+    geocoder.geocode(req.body.location, function (err, data){
+        if(err || !data.length){
+            console.log(err);
+            req.flash("error", "Invalid address");
+            return res.redirect("back")
+        }
+        var lat = data[0].latitude;
+        var lng = data[0].longitude;
+        var location = data[0].formattedAddress;
+    
     newItem.image = imageData;
-    newItem.name = data;
+    newItem.name = name;
     newItem.description = description;
     newItem.author = author;
-    newItem.price = price
+    newItem.price = price;
+    newItem.location = location;
+    newItem.lat = lat;
+    newItem.lng = lng
     
-    campground.create(newItem, function(err, newCampground){
+      campground.create(newItem, function(err, newCampground){
         if(err) {
             req.flash("error", "Please try adding the campground again");
         } else {
@@ -85,7 +111,11 @@ router.post("/", middleware.isLoggedIn, function(req, res) {
         }
     });
     
-});
+ });
+        
+})
+    
+  
 
 
 
@@ -120,24 +150,36 @@ router.get("/:id/edit", middleware.checkOwnerShip, function(req, res){
 
 router.put("/:id", function(req, res){
     var newItem = {};
-    var data = req.body.infoItem;
+    var name = req.body.infoItem;
     var imageData = req.body.imageUrl;
     var description = req.body.description;
     var price = req.body.price;
     
-    
+    geocoder.geocode(req.body.location, function(err, data){
+        if(err || !data.length){
+            req.flash("error", "Invalid address");
+            return res.redirect("back")
+        }
+        var lat = data[0].latitude;
+        var lng = data[0].longitude;
+        var location = data[0].formattedAddress;
+        
     newItem.image = imageData;
-    newItem.name = data;
+    newItem.name = name;
     newItem.description = description;
-    newItem.price  = price
+    newItem.price  = price;
+    newItem.location = location;
+    newItem.lat      = lat;
+    newItem.lng      = lng;
     
-    campground.findByIdAndUpdate(req.params.id, newItem, {new: true}, function(err, updates){
+     campground.findByIdAndUpdate(req.params.id, newItem, {new: true}, function(err, updates){
         if(err){
             console.log(err);
         } else {
             req.flash("success", "Campground edited successfully"); 
             res.redirect("/campground/" + updates._id);
         }
+    })
     })
 })
 
