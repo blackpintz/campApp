@@ -23,7 +23,20 @@ var middleware = require("../middleware");
  
 // INDEX - show all campgrounds
 router.get("/", middleware.isLoggedIn, function(req, res) {
-    
+    if(req.query.search){
+      const regex = new RegExp(escapeRegex(req.query.search), 'gi');
+      campground.find({name: regex}, function(err, camp){
+        if(err){
+            console.log("Something is wrong");
+        }else{
+            if(camp.length < 1){
+                 req.flash("error", "The campground doesn't exist.")
+                 return res.redirect("back");
+            }
+            res.render("campgrounds/index", {campground: camp});
+        }
+    })
+    } else {
     campground.find({}, function(err, camp){
         if(err){
             console.log("Something is wrong");
@@ -31,7 +44,7 @@ router.get("/", middleware.isLoggedIn, function(req, res) {
             res.render("campgrounds/index", {campground: camp});
         }
     });
-    
+    } 
     
 });
 
@@ -50,6 +63,7 @@ router.post("/", middleware.isLoggedIn, function(req, res) {
     var data = req.body.infoItem;
     var imageData = req.body.imageUrl;
     var description = req.body.description;
+    var price = req.body.price;
     var author      = {
         id:      req.user._id,
         username: req.user.username
@@ -60,6 +74,7 @@ router.post("/", middleware.isLoggedIn, function(req, res) {
     newItem.name = data;
     newItem.description = description;
     newItem.author = author;
+    newItem.price = price
     
     campground.create(newItem, function(err, newCampground){
         if(err) {
@@ -108,16 +123,13 @@ router.put("/:id", function(req, res){
     var data = req.body.infoItem;
     var imageData = req.body.imageUrl;
     var description = req.body.description;
-    var author      = {
-        id:       req.user._id,
-        username: req.user.username
-        
-    };
+    var price = req.body.price;
+    
     
     newItem.image = imageData;
     newItem.name = data;
     newItem.description = description;
-    newItem.author = author;
+    newItem.price  = price
     
     campground.findByIdAndUpdate(req.params.id, newItem, {new: true}, function(err, updates){
         if(err){
@@ -142,6 +154,10 @@ router.delete("/:id", middleware.checkOwnerShip, function(req, res){
         }
     });
 });
+
+function escapeRegex(text) {
+    return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+};
 
 
 module.exports = router;

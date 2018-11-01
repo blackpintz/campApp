@@ -1,0 +1,24 @@
+<% include ./partials/header %>
+
+<div class = "ui grid container">
+    <div class = "ui two column centered grid">
+        <div class = "column">
+            <form class = "ui large form" action = "/reset/<%= token%>" method = "POST">
+                <div class="required field">
+                    <label>New password</label>
+                    <input type="password" name="update" placeholder="New password">
+                </div>
+                 <div class="required field">
+                    <label>Confirm password</label>
+                    <input type="password" name="confirm" placeholder="Confirm password">
+                </div>
+                <div class = "ui two column centered grid">
+                    <div class = "eight column centered row">
+                        <button class="ui teal button">Update Password</button>
+               </div>
+            </form>
+        </div>
+        
+    </div>
+    
+</div>

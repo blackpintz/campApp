@@ -13,11 +13,11 @@
   <a class="active item" href = "/">
     Home
   </a>
-  <a class="item">
-    Messages
+  <a class="item" href = "/campground/new">
+    Post new campground
   </a>
-  <a class="item">
-    Friends
+  <a class="item" href = "/campground">
+    View campgrounds
   </a>
   <div class="right menu">
     <% if(!currentUser) { %>
@@ -33,6 +33,16 @@
     <a class = "ui item" href = "#">
       Welcome <%= currentUser.username%>
     </a>
+    <form action = "/campground" method = "GET">
+      <div class="ui right aligned category search item">
+      <div class="ui transparent icon input">
+        <input class="prompt" name = "search" type="text" placeholder="Search campgrounds">
+        <button class = "ui small basic icon button">
+          <i class="search link icon"></i>
+        </button>
+      </div>
+      </div>
+    </form>
     <a class="ui item" href = "/logout">
       <i class="sign out alternate icon"></i>
       Logout

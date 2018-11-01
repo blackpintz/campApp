@@ -19,7 +19,7 @@ middlewareObj.checkOwnerShip = function (req, res, next){
             console.log(err);
              } else {
                  //is the user the owner of the confirmed campground?
-                 if(foundCampground.author.id.equals(req.user._id)){
+                 if(foundCampground.author.id.equals(req.user._id)|| req.user.isAdmin){
                      next();
                  } else {
                      res.redirect("back");
@@ -38,7 +38,7 @@ middlewareObj.ownerOfComment = function(req, res, next){
             console.log(err);
              } else {
                  //is the user the owner of the comment?
-                 if(foundComment.author.id.equals(req.user._id)){
+                 if(foundComment.author.id.equals(req.user._id)|| req.user.isAdmin){
                      next();
                  } else {
                      res.redirect("back");

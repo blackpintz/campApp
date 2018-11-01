@@ -11,6 +11,8 @@ var express               = require("express"),
     comment               = require("./models/comments"),  //name of the model is comment
     User                  = require("./models/user"),
     seedDB                = require("./seeds");
+                            require("dotenv").config()
+
 
 // requiring routes
 var campgroundRoutes = require("./routers/campground"),
@@ -18,12 +20,12 @@ var campgroundRoutes = require("./routers/campground"),
     authRoutes       = require("./routers/auth");
     
 // seedDB();
-// var url = process.env.localDB || "mongodb://localhost:27017/yelp_camp";
-// mongoose.connect(url, { useNewUrlParser: true }); 
-mongoose.connect("mongodb://rose:rose12345@ds119993.mlab.com:19993/yelpcamp");
+var url = process.env.DATABASE_URL || "mongodb://localhost:27017/yelp_camp";
+mongoose.connect(url, { useNewUrlParser: true }); 
+// mongoose.connect("mongodb://rose:rose12345@ds119993.mlab.com:19993/yelpcamp");
 mongoose.set("useFindAndModify", false);
-console.log(process.env.localDB);
-console.log(process.env.DATABASE_URL);
+mongoose.set("useCreateIndex", true);
+
 
 // APP CONFIG
 app.use(methodOverride("_method"));

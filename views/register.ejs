@@ -5,15 +5,34 @@
               <h1>Create an account</h1>
                 <div class = "column">
                     <form id = "register" class = "ui large form" action = "/register" method = "POST">
-                <div class="required field">
+                 <div class="required field">
+                    <label>First Name</label>
+                    <input type="text" name="firstName" placeholder="First name">
+                </div>
+                 <div class="required field">
+                    <label>Last Name</label>
+                    <input type="text" name="lastName" placeholder="Last name">
+                </div>
+                 <div class="field">
+                    <label>Avatar url</label>
+                    <input type="text" name="avatarUrl" placeholder="Avatar url">
+                </div>
+                 <div class="required field">
                     <label>Username</label>
                     <input type="text" name="username" placeholder="username">
+                </div>
+                 <div class="required field">
+                    <label>Email</label>
+                    <input type="email" name="email" placeholder="Email">
                 </div>
                 <div class = "field">
                     <label>Password</label>
                     <input type="password" name="password" placeholder="password">
                 </div>
-                
+                <div class = "field">
+                    <label>Admin Code</label>
+                    <input type="text" name="adminCode" placeholder="admin code">
+                </div>
                 <div class = "ui two column centered grid">
                     <div class = "eight column centered row">
                         <button class="ui teal button">Sign up</button>

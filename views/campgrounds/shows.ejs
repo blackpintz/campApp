@@ -30,15 +30,15 @@
                        <img src = "<%= campground.image %>">
                    </div>
                    <div class = "content">
-                       <span class = "right floated">$9.00/night</span>
+                       <span class = "right floated">$ <%= campground.price%>/night</span>
                        <span class = "left floated">
                           <a href = "/campground/<%= campground._id%>"><%= campground.name %></a> 
                        </span>
                        <div class = "ui hidden divider"></div>
                        <div class = "extra content">
                            <p>
-                               <em>Submitted by <%= campground.author.username%></em>
-                               <% if(currentUser && campground.author.id.equals(currentUser._id)){ %>
+                               <em>Submitted by<a href = "/user/<%= campground.author.id%>"><%= campground.author.username%></a></em>
+                               <% if(currentUser && campground.author.id.equals(currentUser._id)|| currentUser && currentUser.isAdmin){ %>
                                <div class = "ui grey basic button">
                                        <a href = "/campground/<%= campground._id%>/edit">Edit Page</a>
                                </div>
@@ -74,7 +74,7 @@
            </div>
             <div class="text">
              <p><%= comment.text %></p>
-             <% if(currentUser && comment.author.id.equals(currentUser._id)){%>
+             <% if(currentUser && comment.author.id.equals(currentUser._id)|| currentUser && currentUser.isAdmin){%>
              <div class = "ui buttons">
                  <button class="mini ui button">
                  <a href = "/campground/<%= campground._id%>/comments/<%= comment._id%>/edit">Edit</a>

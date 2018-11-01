@@ -15,6 +15,10 @@
                     <label>Image Url</label>
                     <input type="text" name = "imageUrl" value = "<%= campground.image %>">
                 </div>
+                <div class = "required field">
+                    <label>Price</label>
+                    <input type="number" name = "price" value = "<%= campground.price%>" min="5" step="0.01">
+                </div>
                 <div class = "field">
                     <label>Describe the campground</label>
                     <textarea name = "description">

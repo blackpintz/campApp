@@ -1,0 +1,81 @@
+body {
+    background-color: #000;
+}
+
+#landing-header{
+    z-index: 2;
+    position: relative;
+    text-align: center;
+    padding-top: 40vh;
+}
+
+#landing-header h1 {
+    color: #fff;
+}
+
+.slideshow {
+    position: fixed;
+    width:100%;
+    height:100%;
+    z-index:0;
+    list-style:none;
+    top:0;
+    left: 0;
+    margin: 0;
+    padding: 0;
+    
+}
+
+.slideshow li {
+    position:absolute;
+    top:0;
+    left: 0;
+    width: 100%;
+    height:100%;
+    background-size: cover;
+    background-position: 50% 50%;
+    background-repeat:no-repeat;
+    opacity: 0;
+    z-index: 0;
+    animation: imageAnimation 40s linear infinite;
+}
+
+.slideshow li:nth-child(1) {
+    background-image: url(https://images.unsplash.com/photo-1483381719261-6620dfa2d28a?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=b201f4cac49215d2be151bb4d5bc454f&auto=format&fit=crop&w=500&q=60)
+}
+.slideshow li:nth-child(2) {
+    background-image: url(https://images.unsplash.com/photo-1535700601052-b90a78c466f5?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=f50a3776b0916ec81eac3ab6fc2d514c&auto=format&fit=crop&w=500&q=60);
+    animation-delay: 10s;
+}
+
+.slideshow li:nth-child(3) {
+    background-image: url(https://images.unsplash.com/photo-1534950947221-dcaca2836ce8?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=66ea9efe055ecf8060af5676efac7deb&auto=format&fit=crop&w=500&q=60);
+    animation-delay: 20s;
+}
+
+.slideshow li:nth-child(4) {
+    background-image: url(https://images.unsplash.com/photo-1496718412302-96e78da39b72?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=28afec6e80d2ea72570fefaead92c4cb&auto=format&fit=crop&w=500&q=60);
+    animation-delay: 30s;
+}
+
+.slideshow li:nth-child(5) {
+    background-image: url(https://images.pexels.com/photos/534171/pexels-photo-534171.jpeg?auto=compress&cs=tinysrgb&h=350);
+    animation-delay: 40s;
+}
+
+@keyframes imageAnimation {
+    0%{
+        opacity:0;
+        animation-timing-function: ease-in;
+    }
+    10%{
+        opacity: 1;
+        animation-timing-function: ease-out;
+    }
+    20%{
+        opacity: 1;
+    }
+    30%{
+        opacity: 0;
+    }
+}
