@@ -33,7 +33,7 @@ app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/semantic")); //__dirname is where the script is stored. Always important to include it incase the script, /home/../v1, changes.
 app.use(express.static(__dirname + "/public"));
 app.use(flash());
-
+app.locals.moment = require("moment");
 
 
 // PASSPORT CONFIGURATION

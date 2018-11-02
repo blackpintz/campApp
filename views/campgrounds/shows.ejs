@@ -28,7 +28,7 @@
                        <div class = "ui hidden divider"></div>
                        <div class = "extra content">
                            <p>
-                               <em>Submitted by<a href = "/user/<%= campground.author.id%>"><%= campground.author.username%></a></em>
+                               <em>Submitted by: <a href = "/user/<%= campground.author.id%>"><%= campground.author.username%></a>, <span><%= moment(campground.createdAt).fromNow() %></span></spa></em>
                                <% if(currentUser && campground.author.id.equals(currentUser._id)|| currentUser && currentUser.isAdmin){ %>
                                <div class = "ui grey basic button">
                                        <a href = "/campground/<%= campground._id%>/edit">Edit Page</a>
@@ -57,7 +57,7 @@
              <div class="content">
             <a class="author"><strong><%= comment.author.username %></strong></a>
             <div class="metadata">
-               <div class="date">2 days ago</div>
+               <div class="date"><%= moment(comment.createdAt).fromNow()%></div>
             <div class="rating">
               <i class="star icon"></i>
               5 Faves
