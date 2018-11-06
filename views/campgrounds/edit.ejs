@@ -6,14 +6,14 @@
     <div class = "ui two column centered grid">
               <h1>Edit <%=campground.name %></h1>
                 <div class = "column">
-                    <form id = "campground" class = "ui large form" action = "/campground/<%= campground._id %>?_method=PUT" method = "POST">
+                    <form id = "campground" class = "ui large form" action = "/campground/<%= campground._id %>?_method=PUT" method = "POST" enctype = "multipart/form-data">
                 <div class="required field">
                     <label>Name of campground</label>
-                    <input type="text" name="infoItem" value = "<%= campground.name %>">
+                    <input type="text" name="name" value = "<%= campground.name %>">
                 </div>
-                <div class = "required field">
-                    <label>Image Url</label>
-                    <input type="text" name = "imageUrl" value = "<%= campground.image %>">
+                <div class = "field">
+                    <label>Image</label>
+                    <input type="file" name = "image"  accept = "image/*">
                 </div>
                 <div class = "required field">
                     <label>Location</label>

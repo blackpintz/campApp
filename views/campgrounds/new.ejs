@@ -4,14 +4,14 @@
     <div class = "ui two column centered grid">
               <h1>Creating new camp ground</h1>
                 <div class = "column">
-                    <form id = "campground" class = "ui large form" action = "/campground" method = "POST">
+                    <form id = "campground" class = "ui large form" action = "/campground" method = "POST" enctype = "multipart/form-data">
                 <div class="required field">
                     <label>Name of campground</label>
-                    <input type="text" name="infoItem" placeholder="Enter camp-ground">
+                    <input type="text" name="campground[name]" placeholder="Enter camp-ground">
                 </div>
                 <div class = "required field">
-                    <label>Image Url</label>
-                    <input type="text" name = "imageUrl" placeholder="image url">
+                    <label>Image</label>
+                    <input type="file" name = "image" accept = "image/*">
                 </div>
                 <div class = "required field">
                     <label>Location</label>
@@ -19,11 +19,11 @@
                 </div>
                 <div class = "required field">
                     <label>Price</label>
-                    <input type="number" name = "price" placeholder="price" min="5" step="0.01">
+                    <input type="number" name = "campground[price]" placeholder="price" min="5" step="0.01">
                 </div>
                 <div class = "field">
                     <label>Describe the campground</label>
-                    <textarea name = "description"></textarea>
+                    <textarea name = "campground[description]"></textarea>
                 </div>
                 <div class = "ui two column centered grid">
                     <div class = "eight column centered row">

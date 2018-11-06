@@ -11,7 +11,7 @@ var express               = require("express"),
     comment               = require("./models/comments"),  //name of the model is comment
     User                  = require("./models/user"),
     seedDB                = require("./seeds");
-                            require("dotenv").config()
+                            
 
 
 // requiring routes
