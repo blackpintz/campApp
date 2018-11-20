@@ -4,6 +4,8 @@ var express               = require("express"),
     mongoose              = require("mongoose"),
     passport              = require("passport"),
     localStrategy         = require("passport-local"),
+    passportLocalMongoose = require("passport-local-mongoose"),
+    expressValidator      = require("express-validator"),
     methodOverride        = require("method-override"),
     flash                 = require("connect-flash"),
     session               = require("express-session"),
@@ -21,7 +23,7 @@ var campgroundRoutes = require("./routers/campground"),
     
 // seedDB();
 var url = process.env.DATABASE_URL || "mongodb://localhost:27017/yelp_camp";
-mongoose.connect(url, { useNewUrlParser: true }); 
+mongoose.connect(url, { useNewUrlParser: true }).then(() => console.log("Connection Successful")).catch(err => console.log(err));
 mongoose.set("useFindAndModify", false);
 mongoose.set("useCreateIndex", true);
 
@@ -45,7 +47,25 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-// create a middleware for user which will be called on every route.
+// Express Validator
+app.use(expressValidator({
+  errorFormatter: function(param, msg, value) {
+      var namespace = param.split('.')
+      , root    = namespace.shift()
+      , formParam = root;
+
+    while(namespace.length) {
+      formParam += '[' + namespace.shift() + ']';
+    }
+    return {
+      param : formParam,
+      msg   : msg,
+      value : value
+    };
+  }
+}))
+
+// create a middleware for user which will be called on every route. AKA Global vars
 app.use(function(req, res, next){
     res.locals.currentUser = req.user;
     res.locals.error     = req.flash("error");
@@ -55,7 +75,28 @@ app.use(function(req, res, next){
 app.use("/campground", campgroundRoutes);
 app.use("/campground/:id/comments", commentRoutes);
 app.use(authRoutes);
-passport.use(new localStrategy (User.authenticate()));
+passport.use(User.createStrategy());
+// passport.use("login", new localStrategy({
+//     passReqToCallback: true
+// },
+// function(req, email, password, done){
+//     User.findOne({"email": email}, function(err, user){
+//         if(err) {
+//             return done(err, null)
+//         }
+//         if(!user) {
+            
+//             return done(null, false, {message: "Incorrect Email"});
+//         } 
+//         if(user.password != password) {
+//             return done(null, false, {message: "Incorrect Password"});
+//         }
+//         if(!user && user.password != password) {
+//             return done(null, false, {message: "There is no account registered with that email"})
+//         }
+//         return done(null, user);
+//     })
+// }))
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 

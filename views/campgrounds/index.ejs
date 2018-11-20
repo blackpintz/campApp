@@ -22,10 +22,58 @@
   </div>
   <% }) %>
  </div> 
+ <div class = "ui hidden divider"></div>
+ <div class = "ui two column centered grid">
+     <div class = "eight column centered row">
+     <% if(pages && pages> 0) { %>
+     <div class = "ui pagination menu">
+        <% if (current == 1) { %>
+        <a class = "item">First</a>
+        <% } else { %>
+        <a class = "item" href="/campground<%if(search){%> ?search= <%=search%><% } %>">First</a>
+        <% } %>
+     
+     <% if(current == 1) {%>
+     <a class = "item">«</a>
+     <% } else { %>
+     <a class = "item" href="/campground?page=<%= Number(current) - 1 %><%if(search){%>&search=<%=search%><% } %>">«</a>
+     <% } %>
+     <% var i = (Number(current) > 5 ? Number(current) - 4 : 1) %>
+     <% if (i !== 1) { %>
+     <a class = "item">...</a>
+     <% } %>
+     <% for(; i <= (Number(current) + 4) && i <= pages; i++) { %>
+     <% if (i == current) { %>
+     <a class = "item"><%= i %></a>
+     <% } else {%>
+     <a class = "item" href="/campground?page=<%= i %><%if(search){%>&search=<%=search%><% }%>"><%= i %></a>
+     <% } %>
+     <% if (i == Number(current) + 4 && i < pages) {%>
+     <a class = "disabled item">...</a>
+     <% } %>
+     <% } %>
+     
+     <% if (current == pages) { %>
+     <a class = "disabled item">»</a>
+     <% } else { %>
+     <a class = "item" href="/campground?page=<%= Number(current) + 1 %><%if(search){%>&search=<%=search%><% } %>">»</a>
+     <% } %>
+     
+     <% if (current == pages) { %>
+     <a class = "item">Last</a>
+     <% } else { %>
+     <a class = "item" href="/campground?page=<%= pages %><%if(search){%>&search=<%=search%><% }%>">Last</a>
+     <% } %>
+   <% } %>
+ </div>
+  </div>
+  </div>
+ 
  <div class = "ui divider"></div>
   <div class = "ui grey basic button">
         <a href = "/">Go back</a>
  </div>
+ 
 </div>
 
 

@@ -6,6 +6,7 @@ var NodeGeocoder = require("node-geocoder");
 var multer       = require("multer");
 var cloudinary   = require("cloudinary");
 
+
 // multer config
 var storage = multer.diskStorage({
     // filename is used to determine what the file should be named inside the folder.
@@ -45,27 +46,48 @@ var geocoder = NodeGeocoder(options);
  
 // INDEX - show all campgrounds
 router.get("/", middleware.isLoggedIn, function(req, res) {
-    if(req.query.search){
-      const regex = new RegExp(escapeRegex(req.query.search), 'gi');
-      campground.find({name: regex}, function(err, camp){
-        if(err){
-            console.log("Something is wrong");
-        }else{
-            if(camp.length < 1){
-                 req.flash("error", "The campground doesn't exist.")
-                 return res.redirect("back");
-            }
-            res.render("campgrounds/index", {campground: camp});
-        }
-    })
-    } else {
-    campground.find({}, function(err, camp){
-        if(err){
-            console.log("Something is wrong");
-        }else{
-            res.render("campgrounds/index", {campground: camp});
-        }
-    });
+        var perPage = 6;
+        var pageQuery = parseInt(req.query.page);
+        var pageNumber = pageQuery ? pageQuery : 1;
+        
+         if(req.query.search){
+             const regex = new RegExp(escapeRegex(req.query.search), 'gi');
+             campground.find({name: regex}).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function(err, camp) {
+                 campground.count().exec(function (err, count) {
+                     if(err) {
+                         console.log(err);
+                         res.redirect("back")
+                     } else {
+                         if(camp.length < 1){
+                          req.flash("error", "The campground doesn't exist.")
+                         return res.redirect("back");
+                       }
+                       res.render("campgrounds/index", {
+                           campground: camp,
+                           current: pageNumber,
+                           search: req.query.search,
+                           pages: Math.ceil(count/ perPage) // use this to count the number of pages.
+                       })
+                     }
+                 })
+             })
+             } else {
+                 
+                 campground.find({}).skip((perPage*pageNumber) - perPage).limit(perPage).exec(function(err, camp) {
+                 campground.count().exec(function (err, count) {
+                    if(err) {
+                    console.log(err);
+                     } else {
+                      res.render("campgrounds/index", {
+                        campground: camp, 
+                        current: pageNumber,
+                        search: false,
+                        pages: Math.ceil(count/ perPage) // use this to count the number of pages.
+                        
+                    });
+                }
+            });
+        });
     } 
     
 });

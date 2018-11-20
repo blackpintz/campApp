@@ -4,7 +4,7 @@
     <div class = "ui two column centered grid">
               <h1>Create an account</h1>
                 <div class = "column">
-                    <form id = "register" class = "ui large form" action = "/register" method = "POST">
+                    <form id = "register" class = "ui large form" action = "/register" method = "POST" enctype = "multipart/form-data">
                  <div class="required field">
                     <label>First Name</label>
                     <input type="text" name="firstName" placeholder="First name">
@@ -14,16 +14,20 @@
                     <input type="text" name="lastName" placeholder="Last name">
                 </div>
                  <div class="field">
-                    <label>Avatar url</label>
-                    <input type="text" name="avatarUrl" placeholder="Avatar url">
+                    <label>Avatar</label>
+                    <input type="file" name="avatar" accept = "image/*">
                 </div>
                  <div class="required field">
                     <label>Username</label>
-                    <input type="text" name="username" placeholder="username">
+                    <input type="text" name="displayname" placeholder="username">
                 </div>
                  <div class="required field">
                     <label>Email</label>
                     <input type="email" name="email" placeholder="Email">
+                </div>
+                <div class = "required field">
+                    <label>Bio</label>
+                    <textarea name= "bio"></textarea>
                 </div>
                 <div class = "field">
                     <label>Password</label>

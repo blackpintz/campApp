@@ -1,10 +1,43 @@
 var express    = require("express");
 var router     = express.Router();
 var passport   = require("passport");
-var Async      = require("async");
 var nodemailer = require("nodemailer");
 var crypto     = require("crypto");
-var User     = require("../models/user");
+var User       = require("../models/user");
+var Async      = require("async");
+var campground = require("../models/campground");
+var middleware = require("../middleware");
+var multer     = require("multer");
+var cloudinary = require("cloudinary");
+
+// multer config
+var storage = multer.diskStorage({
+    // filename is used to determine what the file should be named inside the folder.
+    // Each function gets passed both the request(req) and some info about the file (file) to aid with the decision
+    filename: function(req, file, callback) {
+        callback(null, Date.now() + file.originalname);
+    }
+});
+
+var imageFilter = function (req, file, callback) {
+    // accept image files only
+    if (!file.originalname.match(/\.(jpg|jpeg|png|gif)$/i)) {
+        return callback(new Error ("Only image files are allowed"), false)
+    }
+    callback(null, true)
+}
+
+
+var upload = multer({storage: storage, fileFilter: imageFilter}); //fileFilter controls which files should be uploaded and which should be skipped.
+
+// cloudinary config
+
+cloudinary.config({
+    cloud_name: "ciiru",
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET
+})
+
 
 
 router.get("/", function(req, res){
@@ -20,16 +53,27 @@ router.get("/register", function(req, res){
 
 // handling user sign ups
 
-router.post("/register", function(req, res){
-    var newUser = new User({username: req.body.username, 
-    firstName: req.body.firstName, 
-    lastName: req.body.lastName, 
-    email: req.body.email, 
-    avatar: req.body.avatarUrl});
-    if(req.body.adminCode === "secretcode123"){
-        newUser.isAdmin = true;
-    }
-    User.register(newUser, req.body.password, function(err, user){
+router.post("/register", upload.single("avatar"), function(req, res){
+    cloudinary.v2.uploader.upload(req.file.path, function(err, result){
+        if(err) {
+            req.flash("error", err.message);
+            return res.redirect("back");
+        }
+        var newUser = new User({displayname: req.body.displayname, 
+       firstName: req.body.firstName, 
+       lastName: req.body.lastName, 
+       email: req.body.email,
+       Bio: req.body.bio,
+       avatar : result.secure_url
+       });
+       console.log(newUser);
+        if(req.body.adminCode === "secretcode123"){
+          newUser.isAdmin = true;
+       }
+   
+      
+      
+       User.register(newUser, req.body.password, function(err, user){
          if(err){
             console.log(err); 
             req.flash("error", err.message);
@@ -37,10 +81,12 @@ router.post("/register", function(req, res){
         }
         
         passport.authenticate("local")(req,res, function(){
-            req.flash("success", "Welcome " + user.firstName + " " + user.lastName);
+            req.flash("success", "Welcome " + " " + user.displayname);
             res.redirect("/campground");
         })
     });
+    })
+    
     
 });
 
@@ -52,23 +98,74 @@ router.get("/login", function(req, res){
 
 // handling logins
 router.post("/login", passport.authenticate("local", {
-    successRedirect: "/campground",
     failureRedirect: "/login",
-    failureFlash: true
+    failureFlash: true,
+    successFlash: "Login successful"
+    
 }), function(req, res){
-
+    res.redirect("/user/" + req.user._id)
 });
 
 // create user profile
 
-router.get("/user/:id", function(req, res){
+router.get("/user/:id", middleware.isLoggedIn, function(req, res){
+    var perPage = 6;
+    var pageQuery = parseInt(req.query.page);
+    var pageNumber = pageQuery ? pageQuery : 1;
+        
     User.findById(req.params.id, function(err, foundUser){
         if(err){
-            console.log(foundUser)
+            
             req.flash("error", err.message);
-            res.redirect("/");
+            return res.redirect("/");
         }
-        res.render("user/show", {user:foundUser});
+        
+        if(req.query.search){
+             const regex = new RegExp(escapeRegex(req.query.search), 'gi');
+             campground.find({name: regex, "author.id": foundUser._id}).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function(err,campgrounds) {
+                 console.log(foundUser);
+                 console.log(campgrounds);
+                 campground.count().exec(function (err, count) {
+                     if(err) {
+                         console.log(err);
+                         res.redirect("back")
+                     } else {
+                         if(campgrounds.length < 1){
+                          req.flash("error", "The campground doesn't exist.")
+                         return res.redirect("back");
+                       }
+                       res.render("user/show", {
+                           user: foundUser,
+                           campground: campgrounds,
+                           current: pageNumber,
+                           search: req.query.search,
+                           pages: Math.ceil(count/ perPage) // use this to count the number of pages.
+                       })
+                     }
+                 })
+             })
+             } else {
+                 
+                 campground.find({"author.id": foundUser._id}).skip((perPage*pageNumber) - perPage).limit(perPage).exec(function(err,campgrounds) {
+                // console.log(foundUser);     
+                // console.log(campgrounds);     
+                 campground.count().exec(function (err, count) {
+                    if(err) {
+                    console.log(err);
+                     } else {
+                      res.render("user/show", {
+                        user: foundUser,  
+                        campground: campgrounds, 
+                        current: pageNumber,
+                        search: false,
+                        pages: Math.ceil(count/ perPage) // use this to count the number of pages.
+                        
+                    });
+                }
+            });
+        });
+    }
+        
     });
 });
 
@@ -199,6 +296,10 @@ router.post("/reset/:token", function(req, res){
         })
    
 })
+
+function escapeRegex(text) {
+    return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+};
 
 
 module.exports =router;

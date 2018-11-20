@@ -52,15 +52,19 @@
         </div>
                   <div class="ui comments">
                     <h3 class = "ui dividing header">Reviews</h3>
+                    <% if (campground.comments.length === 0) {%>
+                    <em>No comments yet</em>
+                    <% } %>
                   <% campground.comments.forEach(function(comment){ %>
-            <div class="comment">
-             <div class="content">
-            <a class="author"><strong><%= comment.author.username %></strong></a>
-            <div class="metadata">
-               <div class="date"><%= moment(comment.createdAt).fromNow()%></div>
-            <div class="rating">
-              <i class="star icon"></i>
-              5 Faves
+                  
+                   <div class="comment">
+                   <div class="content">
+                   <a class="author"><strong><%= comment.author.username %></strong></a>
+                   <div class="metadata">
+                   <div class="date"><%= moment(comment.createdAt).fromNow()%></div>
+                  <div class="rating">
+                   <i class="star icon"></i>
+                   5 Faves
               </div>
            </div>
             <div class="text">
