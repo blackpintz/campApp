@@ -9,6 +9,7 @@ var campground = require("../models/campground");
 var middleware = require("../middleware");
 var multer     = require("multer");
 var cloudinary = require("cloudinary");
+var expressValidator= require("express-validator");
 
 // multer config
 var storage = multer.diskStorage({
@@ -59,14 +60,14 @@ router.post("/register", upload.single("avatar"), function(req, res){
             req.flash("error", err.message);
             return res.redirect("back");
         }
-        var newUser = new User({displayname: req.body.displayname, 
-       firstName: req.body.firstName, 
-       lastName: req.body.lastName, 
-       email: req.body.email,
-       Bio: req.body.bio,
-       avatar : result.secure_url
+        var newUser = new User({displayname: req.body.displayname,
+        firstName: req.body.firstName, 
+        lastName: req.body.lastName, 
+        email: req.body.email,
+        Bio: req.body.bio,
+        avatar : result.secure_url
        });
-       console.log(newUser);
+       
         if(req.body.adminCode === "secretcode123"){
           newUser.isAdmin = true;
        }

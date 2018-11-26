@@ -5,7 +5,6 @@ var express               = require("express"),
     passport              = require("passport"),
     localStrategy         = require("passport-local"),
     passportLocalMongoose = require("passport-local-mongoose"),
-    expressValidator      = require("express-validator"),
     methodOverride        = require("method-override"),
     flash                 = require("connect-flash"),
     session               = require("express-session"),
@@ -14,7 +13,7 @@ var express               = require("express"),
     User                  = require("./models/user"),
     seedDB                = require("./seeds");
                             
-
+require("dotenv").config();
 
 // requiring routes
 var campgroundRoutes = require("./routers/campground"),
@@ -47,23 +46,7 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-// Express Validator
-app.use(expressValidator({
-  errorFormatter: function(param, msg, value) {
-      var namespace = param.split('.')
-      , root    = namespace.shift()
-      , formParam = root;
 
-    while(namespace.length) {
-      formParam += '[' + namespace.shift() + ']';
-    }
-    return {
-      param : formParam,
-      msg   : msg,
-      value : value
-    };
-  }
-}))
 
 // create a middleware for user which will be called on every route. AKA Global vars
 app.use(function(req, res, next){

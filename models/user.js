@@ -19,6 +19,14 @@ var UserSchema = new mongoose.Schema({
     
 });
 
+var passwordValidator = function(password, cb){
+        var regex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/;
+        if(!password.match(regex)){
+            return cb(null, false)
+        }
+        return cb(null, true);
+    }
+
 UserSchema.plugin(passportLocalMongoose, {
     usernameField: "email",
     errorMessages: {

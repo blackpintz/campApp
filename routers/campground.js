@@ -122,9 +122,9 @@ router.post("/", middleware.isLoggedIn, upload.single("image"), function(req, re
         req.body.campground.imageId = result.public_id
          req.body.campground.author = {
         id:      req.user._id,
-        username: req.user.username
+        username: req.user.displayname
         };
-        
+        console.log(req.body.campground);    
         campground.create(req.body.campground, function(err, newCampground){
         if(err) {
             req.flash("error", "Please try adding the campground again");

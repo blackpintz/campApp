@@ -34,7 +34,7 @@
     </a>
     <% } else { %>
     <a class = "ui item" href = "/user/<%= currentUser._id%>">
-      Welcome &nbsp;<%= currentUser.username%>
+      Welcome &nbsp;<%= currentUser.displayname%>
     </a>
     <form action = "/campground" method = "GET">
       <div class="ui right aligned category search item">
