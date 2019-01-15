@@ -124,7 +124,6 @@ router.post("/", middleware.isLoggedIn, upload.single("image"), function(req, re
         id:      req.user._id,
         username: req.user.displayname
         };
-        console.log(req.body.campground);    
         campground.create(req.body.campground, function(err, newCampground){
         if(err) {
             req.flash("error", "Please try adding the campground again");

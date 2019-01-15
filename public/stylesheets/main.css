@@ -2,6 +2,122 @@
 
 /* Google Maps */
 #map {
-    height: 300px;
+    height: 18.75em;
     width: 100%;
+}
+
+.list i {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    color: #000000;
+    border-radius: 50%;
+    font-size: 34px;
+    width: 60px;
+    height: 60px;
+    line-height: 60px;
+    background: #ffffff;
+    transform: translate(-50%, -50%) scale(0);
+    transition: transform 300ms 0ms cubic-bezier(0.6, -0.28, 0.735, 0.045);
+}
+
+.list * {
+    transition: all .35s ease-in-out;
+}
+
+
+.list:hover img {
+    opacity: 0.3;
+    filter: grayscale(100%);
+}
+
+.list:hover i {
+    transform: translate(-50%, -50%) scale(1);
+    transition: transform 300ms 300ms cubic-bezier(0.6, -0.28, 0.735, 0.045);
+}
+
+.list:active i {
+    color: #FF0000;
+}
+
+
+#pgbtns {
+    display: flex;
+}
+
+#cmntbtns {
+    display: flex;
+}
+
+.edit {
+    color: #ffffff;
+}
+
+.ui.pagination.menu {
+    display: flex;
+    justify-content: center;
+}
+
+#footer {
+    background-color: #483D8B;
+    color: #F0F8FF;
+    margin-top: 1rem;
+    line-height: 1.6rem;
+    
+}
+
+#term-info a {
+    color:blue;
+    font-size: 14px;
+    padding-right: 1em;
+}
+
+#row-2 a {
+   color: blue; 
+   padding-right: 0.5em
+}
+
+#socials a {
+    font-size: 2rem;
+    color: black;
+}
+
+#socials {
+    padding-left: 1em;
+}
+
+
+#row-1 {
+    padding-left:1em;
+}
+
+#foot-info {
+    display: flex;
+    justify-content: space-between;
+}
+
+@media only screen and (max-width: 767px) {
+    #map {
+        height: 100px;
+    }
+}
+
+#menu-btn {
+    margin-left: 0.5rem;
+    margin-top: 1.5rem;
+   
+    
+}
+
+#menu-btn .button {
+    font-size: 1.25rem;
+     background-color: #483D8B;
+}
+
+
+#small-menu {
+    margin-left: 1rem;
+    margin-top: 1rem;
+    
+    
 }

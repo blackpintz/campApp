@@ -42,3 +42,26 @@ $(function(){
         }
     })
 })
+
+$(function() {
+    $("#lang").dropdown();
+})
+
+$(function() {
+    $('.message .close')
+  .on('click', function() {
+    $(this)
+      .closest('.message')
+      .transition('fade')
+    ;
+  });
+})
+
+$(function() {
+    $('#toggle').click(function() {
+    $('.ui.sidebar')
+    .sidebar('toggle');
+    })
+});
+
+

@@ -8,6 +8,7 @@ var express               = require("express"),
     methodOverride        = require("method-override"),
     flash                 = require("connect-flash"),
     session               = require("express-session"),
+    expressValidator      = require("express-validator"),
     campground            = require("./models/campground"),
     comment               = require("./models/comments"),  //name of the model is comment
     User                  = require("./models/user"),
@@ -27,16 +28,6 @@ mongoose.set("useFindAndModify", false);
 mongoose.set("useCreateIndex", true);
 
 
-// APP CONFIG
-app.use(methodOverride("_method"));
-app.use(bodyParser.urlencoded({ extended: true }));
-app.set("view engine", "ejs");
-app.use(express.static(__dirname + "/semantic")); //__dirname is where the script is stored. Always important to include it incase the script, /home/../v1, changes.
-app.use(express.static(__dirname + "/public"));
-app.use(flash());
-app.locals.moment = require("moment");
-
-
 // PASSPORT CONFIGURATION
 app.use(session({
     secret: "YelpCamp manenos",
@@ -46,6 +37,15 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
+// APP CONFIG
+app.use(methodOverride("_method"));
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(expressValidator());
+app.set("view engine", "ejs");
+app.use(express.static(__dirname + "/semantic")); //__dirname is where the script is stored. Always important to include it incase the script, /home/../v1, changes.
+app.use(express.static(__dirname + "/public"));
+app.use(flash());
+app.locals.moment = require("moment");
 
 
 // create a middleware for user which will be called on every route. AKA Global vars

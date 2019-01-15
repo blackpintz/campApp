@@ -30,15 +30,18 @@
                            <p>
                                <em>Submitted by: <a href = "/user/<%= campground.author.id%>"><%= campground.author.username%></a>, <span><%= moment(campground.createdAt).fromNow() %></span></spa></em>
                                <% if(currentUser && campground.author.id.equals(currentUser._id)|| currentUser && currentUser.isAdmin){ %>
-                               <div class = "ui grey basic button">
-                                       <a href = "/campground/<%= campground._id%>/edit">Edit Page</a>
+                               <div id = "pgbtns">
+                               <div class = "ui blue button">
+                                       <a class ="edit" href = "/campground/<%= campground._id%>/edit">Edit</a>
                                </div>
                                <form action="/campground/<%= campground.id%>?_method=DELETE" method = "POST">
-                                  <button class = "ui grey basic button">Delete</button>
+                                  <button class = "ui negative button">Delete</button>
                                </form>
+                               </div>
                                <% } %>
                            </p>
                        </div>
+                       <div class = "ui hidden divider"></div>
                        <div class = "description">
                            <p><%= campground.description %></p>
                        </div>
@@ -46,7 +49,12 @@
                    </div>
                     <div class = "ui right aligned grid">
                     <div class = "sixteen wide column">
-                   <a class = "ui green button" href = "/campground/<%= campground._id%>/comments/new">Leave a Review</a> 
+                        <div class = "ui accordion">
+                            <div class = "active title">
+                                <a class = "ui green button" href = "/campground/<%= campground._id%>/comments/new">Leave a Review</a>
+                            </div>
+                        </div>
+                    
                 </div>
             </div>
         </div>
@@ -70,12 +78,12 @@
             <div class="text">
              <p><%= comment.text %></p>
              <% if(currentUser && comment.author.id.equals(currentUser._id)|| currentUser && currentUser.isAdmin){%>
-             <div class = "ui buttons">
-                 <button class="mini ui button">
-                 <a href = "/campground/<%= campground._id%>/comments/<%= comment._id%>/edit">Edit</a>
+             <div id = "cmntbtns">
+                 <button class="mini ui blue button">
+                 <a class = "edit" href = "/campground/<%= campground._id%>/comments/<%= comment._id%>/edit">Edit</a>
               </button>
               <form action ="/campground/<%= campground._id %>/comments/<%=comment._id%>?_method=DELETE" method = "POST">
-                  <button class = "mini ui button">Delete</button>
+                  <button class = "mini ui negative button">Delete</button>
               </form>
              </div>
              <% } %>
@@ -118,3 +126,5 @@
   }
 </script>
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDz0Gf0Q8cgTkxW5yq_mwVovAf8iq2ZoZE&callback=initMap"></script>
+
+<% include ../partials/footer%>

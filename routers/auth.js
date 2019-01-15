@@ -9,7 +9,8 @@ var campground = require("../models/campground");
 var middleware = require("../middleware");
 var multer     = require("multer");
 var cloudinary = require("cloudinary");
-var expressValidator= require("express-validator");
+var Token      = require("../models/token")
+
 
 // multer config
 var storage = multer.diskStorage({
@@ -71,25 +72,40 @@ router.post("/register", upload.single("avatar"), function(req, res){
         if(req.body.adminCode === "secretcode123"){
           newUser.isAdmin = true;
        }
-   
-      
-      
-       User.register(newUser, req.body.password, function(err, user){
-         if(err){
-            console.log(err); 
-            req.flash("error", err.message);
-            return res.redirect("/register");
-        }
+       
+       req.checkBody("displayname", "A username is required.").notEmpty();
+       req.checkBody("password").isLength({min: 8}).withMessage("password must be atleast 8 characters long.").matches("[0-9]").withMessage("Password must contain atleast one number");
+       req.checkBody("email").isEmail().withMessage("The email is invalid");
+       
+       req.getValidationResult().then(function(result){
+           if(result.isEmpty() === false){
+              result.array().forEach(function(error){
+                  req.flash("error", error.msg);
+              }) 
+              return res.redirect("/register")
+           }
         
-        passport.authenticate("local")(req,res, function(){
-            req.flash("success", "Welcome " + " " + user.displayname);
-            res.redirect("/campground");
-        })
-    });
-    })
+           
+            User.register(newUser, req.body.password, function(err, user){
+                if(err){
+                    console.log(err);
+                    req.flash("error", err.message);
+                    return res.redirect("/register");
+                      
+                }
+                passport.authenticate("local")(req,res, function(){
+                req.flash("success", "Welcome " + " " + user.displayname);
+                res.redirect("/user/" + user._id);
+          })
+        });
+    
+})
+       
+})
     
     
 });
+
 
 // creating login form
 
@@ -297,6 +313,52 @@ router.post("/reset/:token", function(req, res){
         })
    
 })
+
+// verify users
+router.get("/verify", function(req, res){
+   res.render("verify")
+    
+})
+
+router.get("/verify/:verificationToken", function(req, res) {
+    Token.findOne({verificationToken: req.params.verificationToken}, function(err, token){
+        if(!token){
+            
+            req.flash("error", "The token is invalid or has expired.")
+            return res.redirect("/register")
+        }
+        // let's find matching user
+        User.findOne({_id:token.userId, email: req.body.email}, function(err, user){
+            if(!user){
+                req.flash("error", "We were unable to find user.")
+                return res.redirect("back")
+            }
+            if(user.isVerified) {
+                req.flash("error", "Account is already verified.")
+                return res.redirect("back")
+            }
+            
+            user.isVerified = true;
+            user.save()
+            User.register(user, req.body.password, function(err, user){
+                   if(err){
+                      console.log(err);
+                      req.flash("error", err.message);
+                      return res.redirect("/register");
+                      
+                }
+                passport.authenticate("local")(req,res, function(){
+                req.flash("success", "Welcome " + " " + user.displayname + ", your account is verified");
+                res.redirect("/campground");
+           })
+        });
+        })
+    })
+    
+    
+});
+
+
 
 function escapeRegex(text) {
     return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");

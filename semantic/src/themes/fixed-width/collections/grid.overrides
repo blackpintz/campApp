@@ -1,3 +1,17 @@
 /*******************************
            Overrides
 *******************************/
+
+@media only screen and (max-width: 991px) and (min-width: 768px) {
+.ui.grid>.doubling.row {
+padding-left: 1rem!important;
+}
+}
+
+@media only screen and (max-width: 767px) {
+.ui.grid>.doubling.row {
+padding-left: 1rem!important;
+}
+}
+
+
