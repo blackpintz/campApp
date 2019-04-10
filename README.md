@@ -1,0 +1,1 @@
+The app lets users add details of their favorite campsites all round the world.
