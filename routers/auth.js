@@ -56,18 +56,27 @@ router.get("/register", function(req, res){
 // handling user sign ups
 
 router.post("/register", upload.single("avatar"), function(req, res){
-    cloudinary.v2.uploader.upload(req.file.path, function(err, result){
-        if(err) {
-            req.flash("error", err.message);
-            return res.redirect("back");
-        }
-        var newUser = new User({displayname: req.body.displayname,
+    let foundUser = {
+        displayname: req.body.displayname,
         firstName: req.body.firstName, 
         lastName: req.body.lastName, 
         email: req.body.email,
         Bio: req.body.bio,
-        avatar : result.secure_url
-       });
+    }
+    
+    cloudinary.v2.uploader.upload(req.file.path, function(err, result){
+        if (err instanceof multer.MulterError) {
+            req.flash("error", "You need to upload an image.")
+        }
+        if(err) {
+            req.flash("error", err.message);
+            return res.redirect("back");
+        }
+    
+        var newUser = new User({
+            ...foundUser,
+            avatar : result.secure_url
+        });
        
         if(req.body.adminCode === "secretcode123"){
           newUser.isAdmin = true;
