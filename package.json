@@ -2,6 +2,9 @@
   "name": "v1",
   "version": "1.0.0",
   "description": "Social camp site",
+  "engines": {
+    "node": "10.16.3"
+  },
   "main": "app.js",
   "scripts": {
     "build": "babel app.js -o output.js --presets env --plugins transform-object-rest-spread --watch",
