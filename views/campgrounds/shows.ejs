@@ -1,19 +1,8 @@
 <% include ../partials/header %>
 
-<div class = "ui grid container">
+<div id = 'container' class = "ui grid container">
     
     <div class = "five wide column">
-        <div class = "header">
-            YelpCamp
-        </div>
-            <div class = "ui list">
-                <div class = "item">
-                     <div class = "content">
-                    <div class = "ui center aligned block active header">info 1</div>
-                  </div>
-                </div>
-            </div>
-            <div id = "map"></div>
             </div>
               <div class = "nine wide column">
                <div class = "ui fluid card">
@@ -98,33 +87,3 @@
  </div>
 </div>
 
-<script>
-  function initMap() {
-    var lat = <%= campground.lat %>;
-    var lng = <%= campground.lng %>;
-    var center = {lat: lat, lng: lng };
-    var map = new google.maps.Map(document.getElementById("map"), {
-        zoom: 8,
-        center: center,
-        scrollwheel: false
-    });
-    var contentString = `
-      <strong><%= campground.name %><br />
-      <%= campground.location %></strong>
-      <p><%= campground.description %></p>
-    `
-    var infowindow = new google.maps.InfoWindow({
-      content: contentString
-    });
-    var marker = new google.maps.Marker({
-        position: center,
-        map: map
-    });
-    marker.addListener('click', function() {
-      infowindow.open(map, marker);
-    });
-  }
-</script>
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDz0Gf0Q8cgTkxW5yq_mwVovAf8iq2ZoZE&callback=initMap"></script>
-
-<% include ../partials/footer%>

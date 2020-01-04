@@ -1,8 +1,11 @@
 <% include ../partials/header %>
 
-<div class = "ui container">
-<h1 class = "ui header">Welcome to Yelp Camp - camping grounds!</h1> 
-
+<div id = 'container' class = "ui container">
+  <% if(campground.length === 0) {%>
+<h1 class = "ui header">Hey. There are no camps listed at the moment!</h1> 
+<% } else { %>
+  <h1 class = "ui header">See camps listed on Social camp!</h1>
+  <% } %>
 <div class="ui three column grid">
     <% campground.forEach(function(campg){ %>
   <div class="column">
@@ -71,13 +74,11 @@
   </div>
  
  <div class = "ui divider"></div>
-  <div class = "ui grey basic button">
-        <a href = "/">Go back</a>
- </div>
  
 </div>
 
 <% include ../partials/footer%>
+
 
 
 

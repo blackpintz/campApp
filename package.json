@@ -1,7 +1,7 @@
 {
   "name": "v1",
   "version": "1.0.0",
-  "description": "Yelp camp site",
+  "description": "Social camp site",
   "main": "app.js",
   "scripts": {
     "build": "babel app.js -o output.js --presets env --plugins transform-object-rest-spread --watch",

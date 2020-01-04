@@ -1,9 +1,20 @@
 /* Google Maps *\
 
 /* Google Maps */
+html, body {
+overflow-x: hidden;
+width: 100%;
+height: 100%;
+position: relative;
+}
 #map {
     height: 18.75em;
     width: 100%;
+}
+
+#container {
+    min-height: 80%;
+    position: relative;
 }
 
 .list i {
@@ -59,11 +70,12 @@
 }
 
 #footer {
-    background-color: #2F4F4F;
+    background-color: #443737;
     color: #F0F8FF;
-    margin-top: 1rem;
-    line-height: 1.6rem;
-    
+    bottom: 0;
+    right: 0;
+    left: 0;
+    padding-top: 1em;
 }
 
 #term-info a {
@@ -88,12 +100,12 @@
 
 
 #row-1 {
-    padding-left:1em;
+    padding:0;
 }
 
 #foot-info {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
 }
 
 @media only screen and (max-width: 767px) {
@@ -120,4 +132,9 @@
     margin-top: 1rem;
     
     
+}
+
+#gobck {
+    margin-left: 1em;
+    margin-bottom: 1.5em;
 }

@@ -3,10 +3,11 @@
 <div class = "ui container">
     <div class = "ui grid">
         <div class = "ten wide column">
-            <img class = "ui avatar left floated image" src="<%= user.avatar%>">
+            <img class = "ui medium image" src="<%= user.avatar%>">
             <span><%= user.username%></span>
             <div class = "ui hidden divider"></div>
             <div class = "ui basic segment">
+              <h4>Bio</h4>
                 <p> <%= user.Bio%></p>
             </div>
         </div>
@@ -78,8 +79,8 @@
   </div>
  
  <div class = "ui divider"></div>
-  <div class = "ui grey basic button">
-        <a href = "/">Go back</a>
+  <div id = 'gobck' class = "ui grey basic button">
+        <a href = "/campground">Go back</a>
  </div>
  
 </div>
