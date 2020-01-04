@@ -25,7 +25,7 @@ var campgroundRoutes = require("./routers/campground"),
     authRoutes = require("./routers/auth");
 
 // seedDB();
-var url = process.env.DATABASE_URL || "mongodb://localhost:27017/yelp_camp";
+var url = process.env.DATABASE_URL || process.env.db;
 mongoose.connect(url, { useNewUrlParser: true }).then(function () {
     return console.log("Connection Successful");
 }).catch(function (err) {
@@ -36,7 +36,7 @@ mongoose.set("useCreateIndex", true);
 
 // PASSPORT CONFIGURATION
 app.use(session({
-    secret: "YelpCamp manenos",
+    secret: "socialCamp manenos",
     resave: false,
     saveUninitialized: false
 }));
@@ -64,30 +64,10 @@ app.use("/campground", campgroundRoutes);
 app.use("/campground/:id/comments", commentRoutes);
 app.use(authRoutes);
 passport.use(User.createStrategy());
-// passport.use("login", new localStrategy({
-//     passReqToCallback: true
-// },
-// function(req, email, password, done){
-//     User.findOne({"email": email}, function(err, user){
-//         if(err) {
-//             return done(err, null)
-//         }
-//         if(!user) {
 
-//             return done(null, false, {message: "Incorrect Email"});
-//         } 
-//         if(user.password != password) {
-//             return done(null, false, {message: "Incorrect Password"});
-//         }
-//         if(!user && user.password != password) {
-//             return done(null, false, {message: "There is no account registered with that email"})
-//         }
-//         return done(null, user);
-//     })
-// }))
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-app.listen(process.env.PORT, process.env.IP, function () {
-    console.log("Yelp camp has started!");
+app.listen(3000, function () {
+    console.log("Social camp has started!");
 });
