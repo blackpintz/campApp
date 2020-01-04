@@ -23,7 +23,7 @@ var campgroundRoutes = require("./routers/campground"),
     
 // seedDB();
 var url = process.env.DATABASE_URL || process.env.db;
-mongoose.connect(url, { useNewUrlParser: true }).then(() => console.log("Connection Successful")).catch(err => console.log(err));
+mongoose.connect(url, { useNewUrlParser: true, useCreateIndex: true }).then(() => console.log("Connection Successful")).catch(err => console.log(err));
 mongoose.set("useFindAndModify", false);
 mongoose.set("useCreateIndex", true);
 
