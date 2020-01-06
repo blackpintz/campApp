@@ -63,8 +63,10 @@ router.post("/register", upload.single("avatar"), function(req, res){
         email: req.body.email,
         Bio: req.body.bio,
     }
+
+    let profpic = req.file ? req.file.path : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
     
-    cloudinary.v2.uploader.upload(req.file.path, function(err, result){
+    cloudinary.v2.uploader.upload(profpic, function(err, result){
         if (err instanceof multer.MulterError) {
             req.flash("error", "You need to upload an image.")
         }

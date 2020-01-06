@@ -4,11 +4,11 @@ $(function (){
     inline: true,    
     fields: {
       nameofauthor: {
-        identifier: 'comment[author]',
+        identifier: 'comment[text]',
         rules: [
           {
             type   : 'empty',
-            prompt : 'Please enter your name'
+            prompt : 'What is the comment?'
           }
         ]
       }
@@ -21,7 +21,7 @@ $(function(){
         inline: true,
         fields: {
             nameofcampground: {
-                identifier: "infoItem",
+                identifier: "campground[name]",
                 rules: [
                     {
                        type : 'empty',
@@ -29,12 +29,12 @@ $(function(){
                     }
                 ]
             },
-            imageurl: {
-                identifier: "imageUrl",
+            price: {
+                identifier: "campground[price]",
                 rules: [
                     {
-                        type: "url",
-                        prompt: "We can't find image url"
+                        type: "empty",
+                        prompt: "How much do they charge per night?"
                     },
                     
                 ]

@@ -42,8 +42,8 @@
                     <a class="item" href = "/campground/new">
                     Post new campground
                     </a>
-                    <a class="item" href = "/campground">
-                    View campgrounds
+                    <a class="item" href = "/user/<%= currentUser._id%>">
+                    Your profile
                     </a>
                     <div class="right menu">
                     <% if(!currentUser) { %>
@@ -56,7 +56,7 @@
                     Login
                     </a>
                       <% } else { %>
-                      <a class = "ui item" href = "/user/<%= currentUser._id%>">
+                      <a class = "ui item" href = "#">
                         Welcome &nbsp;<%= currentUser.displayname%>
                       </a>
                       <form action = "/campground" method = "GET">

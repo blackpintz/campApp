@@ -102,30 +102,34 @@ router.get("/new", middleware.isLoggedIn, function(req, res) {
 
 // CREATE - add new campground to database.
 router.post("/", middleware.isLoggedIn, upload.single("image"), function(req, res) {
-    
-    cloudinary.v2.uploader.upload(req.file.path, function(err, result) {
-        if(err) {
-            req.flash("error", err.message);
-            return res.redirect("back");
-        }
-
-        req.body.campground.image = result.secure_url
-        req.body.campground.imageId = result.public_id
-        req.body.campground.author = {
-                id:      req.user._id,
-                username: req.user.displayname
-                };
-        campground.create(req.body.campground, function(err, newCampground){
+    if(req.file) {
+        cloudinary.v2.uploader.upload(req.file.path, function(err, result) {
+       
             if(err) {
-                req.flash("error", "Please try adding the campground again");
-            } else {
-                req.flash("success", "Campground has been successfully added");
-                res.redirect("/campground");
+                req.flash("error", "Please add a campground image.");
+                return res.redirect("back");
             }
+            req.body.campground.image = result.secure_url
+            req.body.campground.imageId = result.public_id
+            req.body.campground.author = {
+                    id:      req.user._id,
+                    username: req.user.displayname
+                    };
+            
+            campground.create(req.body.campground, function(err, newCampground){
+                if(err) {
+                    req.flash("error", "Please try adding the campground again");
+                } else {
+                    req.flash("success", "Campground has been successfully added");
+                    res.redirect("/campground");
+                }
+            })
+    
         })
-
-    })
-        
+    } else {
+        req.flash("error", "Please add an image of the camp.");
+        return res.redirect("back");
+    }       
 })
     
   

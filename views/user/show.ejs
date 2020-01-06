@@ -4,12 +4,17 @@
     <div class = "ui grid">
         <div class = "ten wide column">
             <img class = "ui medium image" src="<%= user.avatar%>">
-            <span><%= user.username%></span>
+            <span><%= user.displayname%></span>
             <div class = "ui hidden divider"></div>
             <div class = "ui basic segment">
               <h4>Bio</h4>
                 <p> <%= user.Bio%></p>
             </div>
+            <% if(campground.length === 0) {%>
+              <h1 class = "ui header"><span><%= user.displayname%></span>, share with us camps you have visited!</h1> 
+              <% } else { %>
+                <h1 class = "ui header">Here are the camps you have added.</h1>
+                <% } %>
         </div>
         <div class = "six wide column"></div>
     </div>
@@ -34,7 +39,7 @@
   <% }) %>
  </div> 
  <div class = "ui hidden divider"></div>
- <div class = "row">
+ <!-- <div class = "row">
      <% if(pages && pages> 0) { %>
      <div class = "ui pagination menu">
         <% if (current == 1) { %>
@@ -76,7 +81,7 @@
      <% } %>
    <% } %>
  </div>
-  </div>
+  </div> -->
  
  <div class = "ui divider"></div>
   <div id = 'gobck' class = "ui grey basic button">
