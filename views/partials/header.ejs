@@ -42,9 +42,11 @@
                     <a class="item" href = "/campground/new">
                     Post new campground
                     </a>
-                    <a class="item" href = "/user/<%= currentUser._id%>">
-                    Your profile
-                    </a>
+                    <% if(currentUser) { %>
+                      <a class="item" href = "/user/<%= currentUser._id%>">
+                        Your profile
+                        </a>
+                     <% } %>   
                     <div class="right menu">
                     <% if(!currentUser) { %>
                     <a class = "ui item" href =  "/register">
